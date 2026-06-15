@@ -3,6 +3,9 @@
         <div class="row">
             <div class="col-lg-6 offset-lg-3">
                 <div class="section-title text-center wow fadeInUp">
+                    <span>Let's Collaborate</span>
+                    <h2>Get in Touch</h2>
+                    <p class="mt-3">Ready to start your project? Contact us today for a free consultation.</p>
                 </div>
             </div>
         </div>

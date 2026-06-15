@@ -4,6 +4,9 @@
         <div class="row">
             <div class="col-lg-6 offset-lg-3">
                 <div class="section-title text-center wow fadeInUp">
+                    <span>Our Expertise</span>
+                    <h2>Digital Solutions That Drive Growth</h2>
+                    <p class="mt-3">Comprehensive web and software development services to transform your business</p>
                 </div>
             </div>
         </div>

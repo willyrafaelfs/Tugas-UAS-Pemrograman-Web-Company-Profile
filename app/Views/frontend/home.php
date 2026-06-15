@@ -25,90 +25,12 @@
     </div>
 </section>
 
-<!-- About Us Enhanced -->
-<section id="about" class="about-section section-padding">
-    <div class="container">
-        <?= $this->include('frontend/partials/about') ?>
-    </div>
-</section>
-
-<!-- Services Enhanced -->
-<section id="services" class="services-section section-padding bg-light">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6 offset-lg-3">
-                <div class="section-title text-center wow fadeInUp">
-                    <span>Our Expertise</span>
-                    <h2>Digital Solutions That Drive Growth</h2>
-                    <p class="mt-3">Comprehensive web and software development services to transform your business</p>
-                </div>
-            </div>
-        </div>
-        <?= $this->include('frontend/partials/services') ?>
-    </div>
-</section>
-
-<!-- Products Enhanced -->
-<section id="products" class="products-section section-padding">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6 offset-lg-3">
-                <div class="section-title text-center wow fadeInUp">
-                    <span>Our Products</span>
-                    <h2>Quality Solutions</h2>
-                </div>
-            </div>
-        </div>
-        <?= $this->include('frontend/partials/products') ?>
-    </div>
-</section>
-
-<!-- Portfolio Enhanced -->
-<section id="portfolio" class="portfolio-section section-padding bg-light">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6 offset-lg-3">
-                <div class="section-title text-center wow fadeInUp">
-                    <span>Our Masterpieces</span>
-                    <h2>Innovative Digital Solutions</h2>
-                    <p class="mt-3">Discover how we've helped businesses transform through technology</p>
-                </div>
-            </div>
-        </div>
-        <?= $this->include('frontend/partials/portfolio') ?>
-    </div>
-</section>
-
-<!-- Testimonials Enhanced -->
-<section id="testimonials" class="testimonials-section section-padding">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6 offset-lg-3">
-                <div class="section-title text-center wow fadeInUp">
-                    <span>Client Success Stories</span>
-                    <h2>Trusted by Industry Leaders</h2>
-                    <p class="mt-3">Hear what our clients say about working with WillPerfect Studio</p>
-                </div>
-            </div>
-        </div>
-        <?= $this->include('frontend/partials/testimonials') ?>
-    </div>
-</section>
-
-<!-- Contact Enhanced -->
-<section id="contact" class="contact-section section-padding bg-light">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6 offset-lg-3">
-                <div class="section-title text-center wow fadeInUp">
-                    <span>Let's Collaborate</span>
-                    <h2>Get in Touch</h2>
-                    <p class="mt-3">Ready to start your project? Contact us today for a free consultation.</p>
-                </div>
-            </div>
-        </div>
-        <?= $this->include('frontend/partials/contact') ?>
-    </div>
-</section>
+<!-- Each partial below is a self-contained <section>; do not wrap them again -->
+<?= $this->include('frontend/partials/about') ?>
+<?= $this->include('frontend/partials/services') ?>
+<?= $this->include('frontend/partials/products') ?>
+<?= $this->include('frontend/partials/portfolio') ?>
+<?= $this->include('frontend/partials/testimonials') ?>
+<?= $this->include('frontend/partials/contact') ?>
 
 <?= $this->endSection() ?>

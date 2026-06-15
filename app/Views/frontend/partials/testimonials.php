@@ -1,9 +1,12 @@
-<section id="testimonials" class="testimonials-section section-padding bg-light">
+<section id="testimonials" class="testimonials-section section-padding">
     <div class="container">
         <!-- Section Title -->
         <div class="row">
             <div class="col-lg-6 offset-lg-3">
                 <div class="section-title text-center wow fadeInUp">
+                    <span>Client Success Stories</span>
+                    <h2>Trusted by Industry Leaders</h2>
+                    <p class="mt-3">Hear what our clients say about working with WillPerfect Studio</p>
                 </div>
             </div>
         </div>

@@ -1,9 +1,12 @@
-<section id="portfolio" class="portfolio-section section-padding">
+<section id="portfolio" class="portfolio-section section-padding bg-light">
     <div class="container">
         <!-- Section Title -->
         <div class="row">
             <div class="col-lg-6 offset-lg-3">
                 <div class="section-title text-center wow fadeInUp">
+                    <span>Our Masterpieces</span>
+                    <h2>Innovative Digital Solutions</h2>
+                    <p class="mt-3">Discover how we've helped businesses transform through technology</p>
                 </div>
             </div>
         </div>

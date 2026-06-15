@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="<?= base_url('assets/onova/fonts/gilory/giloryfont.css') ?>">
     <link rel="stylesheet" href="<?= base_url('assets/onova/fonts/flaticon/flaticon.css') ?>">
     <link rel="stylesheet" href="<?= base_url('assets/onova/fonts/fontawesome/css/all.min.css') ?>">
-    <link rel="stylesheet" href="<?= base_url('assets/onova /fonts/pe7stroke/css/pe-icon-7-stroke.css') ?>">
+    <link rel="stylesheet" href="<?= base_url('assets/onova/fonts/pe7stroke/css/pe-icon-7-stroke.css') ?>">
     
     <style>
         :root {
@@ -86,11 +86,7 @@
         section {
             padding: 100px 0;
         }
-        
-        section:nth-child(even) {
-            background-color: var(--light);
-        }
-        
+
         /* Footer */
         footer {
             background-color: var(--dark);
@@ -222,7 +218,7 @@ Jakarta 12190, Indonesia</li>
 <script src="<?= base_url('assets/onova/js/vendor/jquery-3.6.0.min.js') ?>"></script>
 <script src="<?= base_url('assets/onova/js/bootstrap.min.js') ?>"></script>
 <script src="<?= base_url('assets/onova/js/popper.min.js') ?>"></script>
-<script src="<?= base_url('assets/onova/js  /imagesloaded.min.js') ?>"></script>
+<script src="<?= base_url('assets/onova/js/imagesloaded.min.js') ?>"></script>
 <script src="<?= base_url('assets/onova/js/isotope.min.js') ?>"></script>
 <script src="<?= base_url('assets/onova/js/jquery.counterup.min.js') ?>"></script>
 <script src="<?= base_url('assets/onova/js/jquery.magnific-popup.min.js') ?>"></script>
