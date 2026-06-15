@@ -7,10 +7,17 @@ use App\Models\TestimonialModel;
 
 class Testimonial extends BaseController
 {
+    protected $testimonialModel;
+    protected $uploadPath = FCPATH . 'uploads/testimonials/';
+
+    public function __construct()
+    {
+        $this->testimonialModel = new TestimonialModel();
+    }
+
     public function index()
     {
-        $testimonialModel = new TestimonialModel();
-        $data['testimonials'] = $testimonialModel->findAll();
+        $data['testimonials'] = $this->testimonialModel->findAll();
         return view('admin/testimonials/index', $data);
     }
 
@@ -21,21 +28,28 @@ class Testimonial extends BaseController
 
     public function store()
     {
-        $testimonialModel = new TestimonialModel();
+        $rules = [
+            'name'    => 'required|max_length[255]',
+            'message' => 'required',
+            'image'   => 'if_exist|is_image[image]|max_size[image,2048]',
+        ];
 
-        // Upload image jika ada
-        $imageFile = $this->request->getFile('image');
-        $imageName = null;
-        if ($imageFile && $imageFile->isValid()) {
-            $imageName = $imageFile->getRandomName();
-            $imageFile->move('uploads/testimonials/', $imageName);
+        if (! $this->validate($rules)) {
+            return redirect()->back()->withInput()->with('error', $this->validator->listErrors());
         }
 
-        $testimonialModel->save([
-            'name' => $this->request->getPost('name'),
+        $imageFile = $this->request->getFile('image');
+        $imageName = null;
+        if ($imageFile && $imageFile->isValid() && ! $imageFile->hasMoved()) {
+            $imageName = $imageFile->getRandomName();
+            $imageFile->move($this->uploadPath, $imageName);
+        }
+
+        $this->testimonialModel->save([
+            'name'     => $this->request->getPost('name'),
             'position' => $this->request->getPost('position'),
-            'message' => $this->request->getPost('message'),
-            'image' => $imageName
+            'message'  => $this->request->getPost('message'),
+            'image'    => $imageName,
         ]);
 
         return redirect()->to('/admin/testimonials')->with('success', 'Testimonial created successfully.');
@@ -43,28 +57,50 @@ class Testimonial extends BaseController
 
     public function edit($id)
     {
-        $testimonialModel = new TestimonialModel();
-        $data['testimonial'] = $testimonialModel->find($id);
-        return view('admin/testimonials/edit', $data);
+        $testimonial = $this->testimonialModel->find($id);
+
+        if (! $testimonial) {
+            return redirect()->to('/admin/testimonials')->with('error', 'Testimonial not found.');
+        }
+
+        return view('admin/testimonials/edit', ['testimonial' => $testimonial]);
     }
 
     public function update($id)
     {
-        $testimonialModel = new TestimonialModel();
+        $testimonial = $this->testimonialModel->find($id);
 
-        $imageFile = $this->request->getFile('image');
-        $imageName = $this->request->getPost('old_image');
-
-        if ($imageFile && $imageFile->isValid()) {
-            $imageName = $imageFile->getRandomName();
-            $imageFile->move('uploads/testimonials/', $imageName);
+        if (! $testimonial) {
+            return redirect()->to('/admin/testimonials')->with('error', 'Testimonial not found.');
         }
 
-        $testimonialModel->update($id, [
-            'name' => $this->request->getPost('name'),
+        $rules = [
+            'name'    => 'required|max_length[255]',
+            'message' => 'required',
+            'image'   => 'if_exist|is_image[image]|max_size[image,2048]',
+        ];
+
+        if (! $this->validate($rules)) {
+            return redirect()->back()->withInput()->with('error', $this->validator->listErrors());
+        }
+
+        $imageFile = $this->request->getFile('image');
+        $imageName = $testimonial['image'];
+
+        if ($imageFile && $imageFile->isValid() && ! $imageFile->hasMoved()) {
+            $imageName = $imageFile->getRandomName();
+            $imageFile->move($this->uploadPath, $imageName);
+
+            if ($testimonial['image'] && is_file($this->uploadPath . $testimonial['image'])) {
+                unlink($this->uploadPath . $testimonial['image']);
+            }
+        }
+
+        $this->testimonialModel->update($id, [
+            'name'     => $this->request->getPost('name'),
             'position' => $this->request->getPost('position'),
-            'message' => $this->request->getPost('message'),
-            'image' => $imageName
+            'message'  => $this->request->getPost('message'),
+            'image'    => $imageName,
         ]);
 
         return redirect()->to('/admin/testimonials')->with('success', 'Testimonial updated successfully.');
@@ -72,14 +108,13 @@ class Testimonial extends BaseController
 
     public function delete($id)
     {
-        $testimonialModel = new TestimonialModel();
-        $testimonial = $testimonialModel->find($id);
+        $testimonial = $this->testimonialModel->find($id);
 
-        if ($testimonial['image'] && file_exists('uploads/testimonials/' . $testimonial['image'])) {
-            unlink('uploads/testimonials/' . $testimonial['image']);
+        if ($testimonial && $testimonial['image'] && is_file($this->uploadPath . $testimonial['image'])) {
+            unlink($this->uploadPath . $testimonial['image']);
         }
 
-        $testimonialModel->delete($id);
+        $this->testimonialModel->delete($id);
         return redirect()->to('/admin/testimonials')->with('success', 'Testimonial deleted successfully.');
     }
 }

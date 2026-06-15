@@ -38,9 +38,12 @@
                                     <a href="/admin/services/edit/<?= $service['id'] ?>" class="btn btn-warning btn-sm">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <a href="/admin/services/delete/<?= $service['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">
-                                        <i class="fas fa-trash"></i>
-                                    </a>
+                                    <form action="/admin/services/delete/<?= $service['id'] ?>" method="post" class="d-inline" onsubmit="return confirm('Are you sure?')">
+                                        <?= csrf_field() ?>
+                                        <button type="submit" class="btn btn-danger btn-sm">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

@@ -5,6 +5,9 @@
 
 <div class="card shadow mb-4">
     <div class="card-body">
+        <?php if (session()->getFlashdata('error')): ?>
+            <div class="alert alert-danger"><?= session()->getFlashdata('error') ?></div>
+        <?php endif; ?>
         <form action="/admin/portfolio/store" method="post" enctype="multipart/form-data">
             <?= csrf_field() ?>
             <div class="form-group">

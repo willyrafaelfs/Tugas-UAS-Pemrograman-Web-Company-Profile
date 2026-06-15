@@ -25,9 +25,12 @@
                                 <td><?= esc($contact['email']) ?></td>
                                 <td><?= esc($contact['message']) ?></td>
                                 <td>
-                                    <a href="/admin/contact/delete/<?= $contact['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Delete this message?')">
-                                        <i class="fas fa-trash"></i>
-                                    </a>
+                                    <form action="/admin/contact/delete/<?= $contact['id'] ?>" method="post" class="d-inline" onsubmit="return confirm('Delete this message?')">
+                                        <?= csrf_field() ?>
+                                        <button type="submit" class="btn btn-danger btn-sm">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

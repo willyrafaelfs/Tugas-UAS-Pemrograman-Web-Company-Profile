@@ -40,9 +40,12 @@
                                     <a href="/admin/products/edit/<?= $product['id'] ?>" class="btn btn-warning btn-sm">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <a href="/admin/products/delete/<?= $product['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Delete this product?')">
-                                        <i class="fas fa-trash"></i>
-                                    </a>
+                                    <form action="/admin/products/delete/<?= $product['id'] ?>" method="post" class="d-inline" onsubmit="return confirm('Delete this product?')">
+                                        <?= csrf_field() ?>
+                                        <button type="submit" class="btn btn-danger btn-sm">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

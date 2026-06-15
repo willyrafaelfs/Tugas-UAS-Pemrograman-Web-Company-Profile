@@ -46,9 +46,12 @@
                                     <a href="/admin/portfolio/edit/<?= $item['id'] ?>" class="btn btn-warning btn-sm">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <a href="/admin/portfolio/delete/<?= $item['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Delete this portfolio?')">
-                                        <i class="fas fa-trash"></i>
-                                    </a>
+                                    <form action="/admin/portfolio/delete/<?= $item['id'] ?>" method="post" class="d-inline" onsubmit="return confirm('Delete this portfolio?')">
+                                        <?= csrf_field() ?>
+                                        <button type="submit" class="btn btn-danger btn-sm">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
