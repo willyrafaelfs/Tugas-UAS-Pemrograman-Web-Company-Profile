@@ -10,20 +10,22 @@ use CodeIgniter\Router\RouteCollection;
 $routes->get('/', 'Home::index');  // Semua section (home, about, services, dll) ada di halaman ini
 $routes->post('/contact/send', 'Home::sendContact'); // Form contact tetap pakai POST
 
-// ========== ADMIN ==========
-$routes->get('/admin', 'Admin::index');
+// ========== ADMIN (PUBLIK: login) ==========
 $routes->get('/admin/login', 'Admin::login');
-$routes->get('/admin/logout', 'Admin::logout');
 $routes->post('/admin/authenticate', 'Admin::authenticate');
+$routes->get('/admin/logout', 'Admin::logout');
 
-$routes->group('admin', ['namespace' => 'App\Controllers\Admin'], function ($routes) {
+// ========== ADMIN (TERPROTEKSI: wajib login) ==========
+$routes->get('/admin', 'Admin::index', ['filter' => 'auth']);
+
+$routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'auth'], function ($routes) {
     // Services
     $routes->get('services', 'Service::index');
     $routes->get('services/create', 'Service::create');
     $routes->post('services/store', 'Service::store');
     $routes->get('services/edit/(:num)', 'Service::edit/$1');
     $routes->post('services/update/(:num)', 'Service::update/$1');
-    $routes->get('services/delete/(:num)', 'Service::delete/$1');
+    $routes->post('services/delete/(:num)', 'Service::delete/$1');
 
     // Products
     $routes->get('products', 'Product::index');
@@ -31,7 +33,7 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin'], function ($rou
     $routes->post('products/store', 'Product::store');
     $routes->get('products/edit/(:num)', 'Product::edit/$1');
     $routes->post('products/update/(:num)', 'Product::update/$1');
-    $routes->get('products/delete/(:num)', 'Product::delete/$1');
+    $routes->post('products/delete/(:num)', 'Product::delete/$1');
 
     // Portfolio
     $routes->get('portfolio', 'Portfolio::index');
@@ -39,7 +41,7 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin'], function ($rou
     $routes->post('portfolio/store', 'Portfolio::store');
     $routes->get('portfolio/edit/(:num)', 'Portfolio::edit/$1');
     $routes->post('portfolio/update/(:num)', 'Portfolio::update/$1');
-    $routes->get('portfolio/delete/(:num)', 'Portfolio::delete/$1');
+    $routes->post('portfolio/delete/(:num)', 'Portfolio::delete/$1');
 
     // Testimonials
     $routes->get('testimonials', 'Testimonial::index');
@@ -47,9 +49,9 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin'], function ($rou
     $routes->post('testimonials/store', 'Testimonial::store');
     $routes->get('testimonials/edit/(:num)', 'Testimonial::edit/$1');
     $routes->post('testimonials/update/(:num)', 'Testimonial::update/$1');
-    $routes->get('testimonials/delete/(:num)', 'Testimonial::delete/$1');
+    $routes->post('testimonials/delete/(:num)', 'Testimonial::delete/$1');
 
     // Contact (Admin Panel)
     $routes->get('contact', 'Contact::index');
-    $routes->get('contact/delete/(:num)', 'Contact::delete/$1');
+    $routes->post('contact/delete/(:num)', 'Contact::delete/$1');
 });

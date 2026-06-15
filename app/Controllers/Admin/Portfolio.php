@@ -8,6 +8,7 @@ use App\Models\PortfolioModel;
 class Portfolio extends BaseController
 {
     protected $portfolioModel;
+    protected $uploadPath = FCPATH . 'uploads/portfolio/';
 
     public function __construct()
     {
@@ -45,9 +46,9 @@ class Portfolio extends BaseController
         $imageFile = $this->request->getFile('image');
         $imageName = null;
 
-        if ($imageFile && $imageFile->isValid()) {
+        if ($imageFile && $imageFile->isValid() && ! $imageFile->hasMoved()) {
             $imageName = $imageFile->getRandomName();
-            $imageFile->move('uploads/portfolio/', $imageName);
+            $imageFile->move($this->uploadPath, $imageName);
         }
 
         $this->portfolioModel->save([
@@ -97,13 +98,13 @@ class Portfolio extends BaseController
         $imageFile = $this->request->getFile('image');
         $imageName = $portfolio['image'];
 
-        if ($imageFile && $imageFile->isValid()) {
+        if ($imageFile && $imageFile->isValid() && ! $imageFile->hasMoved()) {
             $imageName = $imageFile->getRandomName();
-            $imageFile->move('uploads/portfolio/', $imageName);
+            $imageFile->move($this->uploadPath, $imageName);
 
             // Hapus gambar lama
-            if ($portfolio['image'] && file_exists('uploads/portfolio/' . $portfolio['image'])) {
-                unlink('uploads/portfolio/' . $portfolio['image']);
+            if ($portfolio['image'] && is_file($this->uploadPath . $portfolio['image'])) {
+                unlink($this->uploadPath . $portfolio['image']);
             }
         }
 
@@ -125,8 +126,8 @@ class Portfolio extends BaseController
         }
 
         // Hapus gambar dari folder
-        if ($portfolio['image'] && file_exists('uploads/portfolio/' . $portfolio['image'])) {
-            unlink('uploads/portfolio/' . $portfolio['image']);
+        if ($portfolio['image'] && is_file($this->uploadPath . $portfolio['image'])) {
+            unlink($this->uploadPath . $portfolio['image']);
         }
 
         $this->portfolioModel->delete($id);

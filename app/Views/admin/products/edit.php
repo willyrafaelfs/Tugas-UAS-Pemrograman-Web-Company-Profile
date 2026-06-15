@@ -5,6 +5,9 @@
 
 <div class="card shadow mb-4">
     <div class="card-body">
+        <?php if (session()->getFlashdata('error')): ?>
+            <div class="alert alert-danger"><?= session()->getFlashdata('error') ?></div>
+        <?php endif; ?>
         <form action="/admin/products/update/<?= $product['id'] ?>" method="post">
             <?= csrf_field() ?>
             <div class="form-group">
