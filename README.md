@@ -55,6 +55,8 @@ Username: admin
 Password: admin123
 
 ```
+
+> ⚠️ **Catatan keamanan:** Kredensial `admin / admin123` adalah default bawaan untuk keperluan demo/development. **Wajib diganti** sebelum aplikasi di-deploy ke produksi (ubah di `app/Database/Seeds/UserSeeder.php` lalu jalankan ulang seeder, atau update langsung di database). Jangan pernah commit file `.env` yang berisi kredensial asli.
 ## 👥 Anggota Kelompok – Pemweb 4G
 - Adelio Raihan Aryasatya (23083000152)
 - Willy Rafael F. Silalahi (23083000168)
