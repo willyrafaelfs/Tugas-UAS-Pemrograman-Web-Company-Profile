@@ -12,8 +12,8 @@ pages:
   interruptible: true
   before_script:
     - apt-get update
-    - apt-get install -y --no-install-recommends curl libicu-dev libonig-dev libsqlite3-dev libzip-dev
-    - docker-php-ext-install intl mbstring sqlite3 zip
+    - apt-get install -y --no-install-recommends curl libicu-dev libzip-dev
+    - docker-php-ext-install intl zip
     - curl -fsSL https://getcomposer.org/installer -o /tmp/composer-setup.php
     - EXPECTED_CHECKSUM="$(curl -fsSL https://composer.github.io/installer.sig)"
     - php -r "if (hash_file('sha384', '/tmp/composer-setup.php') !== '${EXPECTED_CHECKSUM}') { fwrite(STDERR, 'Invalid Composer installer checksum.' . PHP_EOL); exit(1); }"
