@@ -4,24 +4,16 @@ stages:
   - deploy
 
 variables:
-  MYSQL_DATABASE: company_profile
-  MYSQL_USER: company_profile
-  MYSQL_PASSWORD: company_profile
-  MYSQL_ROOT_PASSWORD: root
-  MYSQL_ROOT_HOST: "%"
   PAGE_BASE_URL: https://willyrafaelfs.gitlab.io/Tugas-UAS-Pemrograman-Web-Company-Profile/
 
 pages:
   stage: deploy
   timeout: 20m
   interruptible: true
-  services:
-    - name: mysql:8.4
-      alias: db
   before_script:
     - apt-get update
-    - apt-get install -y --no-install-recommends curl default-mysql-client libicu-dev libonig-dev libzip-dev
-    - docker-php-ext-install intl mbstring mysqli zip
+    - apt-get install -y --no-install-recommends curl libicu-dev libonig-dev libsqlite3-dev libzip-dev
+    - docker-php-ext-install intl mbstring sqlite3 zip
     - curl -fsSL https://getcomposer.org/installer -o /tmp/composer-setup.php
     - EXPECTED_CHECKSUM="$(curl -fsSL https://composer.github.io/installer.sig)"
     - php -r "if (hash_file('sha384', '/tmp/composer-setup.php') !== '${EXPECTED_CHECKSUM}') { fwrite(STDERR, 'Invalid Composer installer checksum.' . PHP_EOL); exit(1); }"
@@ -31,24 +23,9 @@ pages:
       cat > .env <<EOF
       CI_ENVIRONMENT = development
       app.baseURL = '${PAGE_BASE_URL}'
-      database.default.hostname = db
-      database.default.database = company_profile
-      database.default.username = company_profile
-      database.default.password = company_profile
-      database.default.DBDriver = MySQLi
-      database.default.port = 3306
+      database.default.database = '${CI_PROJECT_DIR}/writable/pages.sqlite'
+      database.default.DBDriver = SQLite3
       EOF
-    - |
-      for attempt in $(seq 1 60); do
-        if mysqladmin ping -h db -uroot -proot --silent; then
-          break
-        fi
-        sleep 2
-      done
-      mysqladmin ping -h db -uroot -proot --silent || {
-        echo "MySQL did not become ready within 120 seconds."
-        exit 1
-      }
   script:
     - php spark migrate
     - php -S 127.0.0.1:8080 -t public > /tmp/company-profile-php.log 2>&1 &
