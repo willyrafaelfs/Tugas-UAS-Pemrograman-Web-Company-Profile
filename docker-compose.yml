@@ -1,0 +1,32 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+      - vendor_data:/var/www/html/vendor
+      - ./docker/app.env:/var/www/html/.env:ro
+    depends_on:
+      db:
+        condition: service_healthy
+    command: sh -c "php spark migrate && apache2-foreground"
+
+  db:
+    image: mysql:8.4
+    environment:
+      MYSQL_DATABASE: company_profile
+      MYSQL_USER: company_profile
+      MYSQL_PASSWORD: company_profile
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$${MYSQL_ROOT_PASSWORD}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  mysql_data:
+  vendor_data:

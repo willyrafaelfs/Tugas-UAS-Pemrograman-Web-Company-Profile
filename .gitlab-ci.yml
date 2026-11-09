@@ -1,0 +1,55 @@
+image: php:8.2-cli
+
+stages:
+  - deploy
+
+variables:
+  MYSQL_DATABASE: company_profile
+  MYSQL_USER: company_profile
+  MYSQL_PASSWORD: company_profile
+  MYSQL_ROOT_PASSWORD: root
+  MYSQL_ROOT_HOST: "%"
+  PAGE_BASE_URL: https://willyrafaelfs.gitlab.io/Tugas-UAS-Pemrograman-Web-Company-Profile/
+
+pages:
+  stage: deploy
+  services:
+    - name: mysql:8.4
+      alias: db
+  before_script:
+    - apt-get update
+    - apt-get install -y --no-install-recommends curl default-mysql-client libicu-dev libonig-dev libzip-dev
+    - docker-php-ext-install intl mbstring mysqli zip
+    - curl -fsSL https://getcomposer.org/installer -o /tmp/composer-setup.php
+    - EXPECTED_CHECKSUM="$(curl -fsSL https://composer.github.io/installer.sig)"
+    - php -r "if (hash_file('sha384', '/tmp/composer-setup.php') !== '${EXPECTED_CHECKSUM}') { fwrite(STDERR, 'Invalid Composer installer checksum.' . PHP_EOL); exit(1); }"
+    - php /tmp/composer-setup.php --install-dir=/usr/local/bin --filename=composer
+    - composer install --no-dev --no-interaction --no-progress --prefer-dist
+    - |
+      cat > .env <<EOF
+      CI_ENVIRONMENT = development
+      app.baseURL = '${PAGE_BASE_URL}'
+      database.default.hostname = db
+      database.default.database = company_profile
+      database.default.username = company_profile
+      database.default.password = company_profile
+      database.default.DBDriver = MySQLi
+      database.default.port = 3306
+      EOF
+    - until mysqladmin ping -h db -uroot -proot --silent; do sleep 2; done
+  script:
+    - php spark migrate
+    - php -S 127.0.0.1:8080 -t public > /tmp/company-profile-php.log 2>&1 &
+    - |
+      for attempt in $(seq 1 30); do
+        if curl --fail --silent http://127.0.0.1:8080/ > /dev/null; then
+          break
+        fi
+        sleep 2
+      done
+      curl --fail --silent http://127.0.0.1:8080/ > /dev/null
+      php scripts/build-pages.php http://127.0.0.1:8080/
+  pages:
+    publish: pages-build
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'

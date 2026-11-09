@@ -33,8 +33,13 @@ Website Company Profile ini merupakan proyek tugas UAS dari mata kuliah *Pemrogr
 ## ⚙️ Clone & Setup
 
 ```bash
+# GitHub
 git clone https://github.com/willyrafaelfs/Tugas-UAS-Pemrograman-Web-Company-Profile.git
-cd company-profile
+
+# atau GitLab
+git clone https://gitlab.com/willyrafaelfs/Tugas-UAS-Pemrograman-Web-Company-Profile.git
+
+cd Tugas-UAS-Pemrograman-Web-Company-Profile
 
 # Install dependencies
 composer install
@@ -57,6 +62,25 @@ Password: admin123
 ```
 
 > ⚠️ **Catatan keamanan:** Kredensial `admin / admin123` adalah default bawaan untuk keperluan demo/development. **Wajib diganti** sebelum aplikasi di-deploy ke produksi (ubah di `app/Database/Seeds/UserSeeder.php` lalu jalankan ulang seeder, atau update langsung di database). Jangan pernah commit file `.env` yang berisi kredensial asli.
+
+## 🐳 Menjalankan dengan Docker
+
+Tidak perlu memasang Node.js, PHP, Composer, atau MySQL di laptop. Pastikan Docker Desktop sudah berjalan, lalu dari folder proyek jalankan:
+
+```bash
+docker compose up --build
+```
+
+Buka [http://localhost:8080](http://localhost:8080). Migrasi database akan dijalankan otomatis saat aplikasi mulai. Untuk membuat akun admin demo, jalankan perintah ini di terminal lain:
+
+```bash
+docker compose exec app php spark db:seed UserSeeder
+```
+
+Login admin tersedia di [http://localhost:8080/admin/login](http://localhost:8080/admin/login) dengan `admin` / `admin123`. Kredensial tersebut hanya untuk demo lokal. Untuk menghentikan aplikasi, tekan `Ctrl+C`; untuk menjalankannya kembali di latar belakang, gunakan `docker compose up -d`.
+
+Database dan dependensi Composer disimpan di Docker volumes. Untuk menghapus seluruh data database, jalankan `docker compose down -v`.
+
 ## 👥 Anggota Kelompok – Pemweb 4G
 - Adelio Raihan Aryasatya (23083000152)
 - Willy Rafael F. Silalahi (23083000168)
