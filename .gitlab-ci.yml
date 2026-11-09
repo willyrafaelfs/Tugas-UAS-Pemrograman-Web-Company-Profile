@@ -13,6 +13,8 @@ variables:
 
 pages:
   stage: deploy
+  timeout: 20m
+  interruptible: true
   services:
     - name: mysql:8.4
       alias: db
@@ -36,7 +38,17 @@ pages:
       database.default.DBDriver = MySQLi
       database.default.port = 3306
       EOF
-    - until mysqladmin ping -h db -uroot -proot --silent; do sleep 2; done
+    - |
+      for attempt in $(seq 1 60); do
+        if mysqladmin ping -h db -uroot -proot --silent; then
+          break
+        fi
+        sleep 2
+      done
+      mysqladmin ping -h db -uroot -proot --silent || {
+        echo "MySQL did not become ready within 120 seconds."
+        exit 1
+      }
   script:
     - php spark migrate
     - php -S 127.0.0.1:8080 -t public > /tmp/company-profile-php.log 2>&1 &
