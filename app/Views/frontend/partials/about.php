@@ -47,7 +47,7 @@
             
             <div class="col-lg-6 wow fadeInRight" data-wow-delay="0.2s">
                 <div class="about-img">
-                    <img src="https://i.pinimg.com/1200x/7e/7f/77/7e7f779cfd117149f14d858ad2c7006d.jpg" alt="WillPerfect Studio Team" class="img-fluid rounded">
+                    <img src="<?= base_url('assets/onova/images/about-team.jpg') ?>" alt="WillPerfect Studio Team" class="img-fluid rounded">
                     <div class="about-experience">
                         <h3>2<span class="counter">12</span>+</h3>
                         <p>Years in Digital Innovation</p>

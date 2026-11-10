@@ -65,6 +65,9 @@ jobs:
       - name: Run database migrations
         run: php spark migrate
 
+      - name: Seed demo content
+        run: php spark db:seed DemoContentSeeder
+
       - name: Generate the static site
         run: |
           php -S 127.0.0.1:8080 -t public > /tmp/company-profile-php.log 2>&1 &

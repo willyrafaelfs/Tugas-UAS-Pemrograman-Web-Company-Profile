@@ -18,7 +18,7 @@
             </div>
             <div class="col-lg-6 wow fadeInRight" data-wow-delay="0.5s">
                 <div class="hero-img">
-                    <img src="https://i.pinimg.com/736x/e5/60/a1/e560a10150384bb607881dc0620324d6.jpg" alt="Hero Image" class="img-fluid">
+                    <img src="<?= base_url('assets/onova/images/hero-office.jpg') ?>" alt="Modern office building" class="img-fluid">
                 </div>
             </div>
         </div>

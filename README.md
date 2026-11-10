@@ -51,6 +51,9 @@ cp env .env
 # Jalankan migrasi jika diperlukan
 php spark migrate
 
+# (Opsional) isi konten contoh
+php spark db:seed DemoContentSeeder
+
 # Jalankan server lokal
 php spark serve
 
@@ -77,6 +80,14 @@ Buka [http://localhost:8080](http://localhost:8080). Migrasi database akan dijal
 docker compose exec app php spark db:seed UserSeeder
 ```
 
+Untuk mengisi website dengan konten contoh (layanan, produk, portfolio, testimoni, dan pesan kontak fiktif), jalankan:
+
+```bash
+docker compose exec app php spark db:seed DemoContentSeeder
+```
+
+Seeder ini hanya mengisi tabel yang masih kosong, jadi aman dijalankan lebih dari sekali.
+
 Login admin tersedia di [http://localhost:8080/admin/login](http://localhost:8080/admin/login) dengan `admin` / `admin123`. Kredensial tersebut hanya untuk demo lokal. Untuk menghentikan aplikasi, tekan `Ctrl+C`; untuk menjalankannya kembali di latar belakang, gunakan `docker compose up -d`.
 
 Database dan dependensi Composer disimpan di Docker volumes. Untuk menghapus seluruh data database, jalankan `docker compose down -v`.
@@ -85,3 +96,8 @@ Database dan dependensi Composer disimpan di Docker volumes. Untuk menghapus sel
 - Adelio Raihan Aryasatya (23083000152)
 - Willy Rafael F. Silalahi (23083000168)
 - Imanuel Kevin Jhonson (23083000188)
+
+## 📷 Kredit Gambar
+- Foto hero: [Nopparuj Lamaikul](https://unsplash.com/photos/modern-glass-building-with-green-landscaping-atYoXjIr8qY) di Unsplash (Unsplash License)
+- Foto About: [Annie Spratt](https://unsplash.com/photos/group-of-people-using-laptop-computer-QckxruozjRg) di Unsplash (Unsplash License)
+- Gambar portfolio contoh (`public/uploads/portfolio/demo-*.png`): mockup buatan sendiri
