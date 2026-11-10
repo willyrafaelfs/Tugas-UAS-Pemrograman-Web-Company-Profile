@@ -84,7 +84,17 @@ phpunit
 #-------------------------
 # Composer
 #-------------------------
-vendor/
+# Root only: the frontend and admin templates keep their JS/CSS libraries in
+# public/assets/*/vendor, and those must be committed.
+/vendor/
+
+# Admin template libraries the admin layout does not load
+public/assets/admin/vendor/chart.js/
+public/assets/admin/vendor/datatables/
+public/assets/admin/vendor/fontawesome-free/*
+!public/assets/admin/vendor/fontawesome-free/css/
+!public/assets/admin/vendor/fontawesome-free/webfonts/
+!public/assets/admin/vendor/fontawesome-free/LICENSE.txt
 
 #-------------------------
 # IDE / Development Files
