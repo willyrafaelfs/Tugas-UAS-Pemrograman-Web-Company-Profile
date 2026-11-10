@@ -2,7 +2,7 @@
 <?= $this->section('content') ?>
 
 <h1 class="mb-4">Dashboard Admin</h1>
-<p class="lead">Selamat datang kembali, <?= session()->get('adminUsername') ?>!</p>
+<p class="lead">Selamat datang kembali, <?= esc(session()->get('username') ?? 'Admin') ?>!</p>
 <p>Berikut adalah ringkasan data website Anda:</p>
 
 <div class="row g-4 mb-4">
